@@ -20,6 +20,7 @@ public class GameState implements Serializable {
 
     public LocalBoard[] localBoards = new LocalBoard[9];
     public Player player1, player2;
+    public int round;
 
     public GameState() {
         // For Testing
@@ -40,6 +41,7 @@ public class GameState implements Serializable {
                 this.localBoards[i].cells[j] = new Cell();
             }
         }
+        this.round = 1;
         this.player1 = player1;
         this.player2 = player2;
     }
@@ -56,7 +58,6 @@ public class GameState implements Serializable {
         } else if (isLBDraw(this.localBoards[currentLB])) {
             this.localBoards[currentLB].state = LocalBoardState.DRAW;
             System.out.println("LB Draw " + currentLB);
-            currentPlayer.marks += 700;
         }
         // is Game win
         if (isGameWin(currentPlayer)) {
@@ -66,6 +67,7 @@ public class GameState implements Serializable {
             WinDialog winDialog = new WinDialog(jframe, true);
             winDialog.setWinner(currentPlayer);
             winDialog.setVisible(true);
+            currentPlayer.marks += 700;
             return;
         } else if (isGameDraw()) {
             System.out.println("Game Draw");

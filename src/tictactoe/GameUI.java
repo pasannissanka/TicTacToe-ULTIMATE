@@ -42,7 +42,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
     private JPanel globalBoardJPanel, topPanel;
     private JPanel[] localBoardJPanels = new JPanel[9];
     private JLabel tvResult;
-    private JButton reset, exit;
+    private JButton reset;
     private PlayerDisplayPanel playerDisplayPanel;
 
     public GameUI() {
@@ -81,7 +81,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
     }
 
     private void render() {
-        tvResult.setText(currentPlayer.getPlayerName());
+//        tvResult.setText(currentPlayer.getPlayerName());
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Cell cell = gameState.localBoards[i].cells[j];
@@ -101,6 +101,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
 
         playerDisplayPanel.setPlayer1Marks(gameState.player1.marks);
         playerDisplayPanel.setPlayer2Marks(gameState.player2.marks);
+        playerDisplayPanel.setRoundCount();
     }
 
     // Button click handler
@@ -167,8 +168,8 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
         globalBoardJPanel.setBackground(Color.BLACK);
         globalBoardJPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
 
-        tvResult = new JLabel();
-        tvResult.setText(currentPlayer.getPlayerName());
+//        tvResult = new JLabel();
+//        tvResult.setText(currentPlayer.getPlayerName());
         playerDisplayPanel.setPlayer1Name(gameState.player1.getPlayerName());
         playerDisplayPanel.setPlayer2Name(gameState.player2.getPlayerName());
 
@@ -230,7 +231,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
 
         this.add(globalBoardJPanel, BorderLayout.CENTER);
         this.add(topPanel, BorderLayout.NORTH);
-        this.add(tvResult, BorderLayout.SOUTH);
+//        this.add(tvResult, BorderLayout.SOUTH);
         this.add(playerDisplayPanel, BorderLayout.WEST);
     }
 

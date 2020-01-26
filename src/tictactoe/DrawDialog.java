@@ -17,6 +17,7 @@ public class DrawDialog extends javax.swing.JDialog {
     public DrawDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -102,6 +103,7 @@ public class DrawDialog extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Launcher.gameState.restart();
+        Launcher.gameState.round++;
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

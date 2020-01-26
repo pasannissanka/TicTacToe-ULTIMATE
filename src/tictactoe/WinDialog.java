@@ -154,6 +154,7 @@ public class WinDialog extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Launcher.gameState.restart();
+        Launcher.gameState.round++;
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
