@@ -124,10 +124,11 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
             gameState.reset();
         }
 
-        if (e.getSource() == exit) {
-            serializeObjs();
-            System.exit(0);
-        }
+
+//        if (e.getSource() == exit) {
+//            serializeObjs();
+//            System.exit(0);
+//        }
     }
 
     private void changePlayer() {
@@ -198,7 +199,9 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
         }
 
         // JFRAME Initialization
+
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
