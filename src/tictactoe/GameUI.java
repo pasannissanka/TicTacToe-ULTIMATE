@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -21,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
@@ -39,7 +42,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
     private JPanel globalBoardJPanel, topPanel;
     private JPanel[] localBoardJPanels = new JPanel[9];
     private JLabel tvResult;
-    private JButton reset, exit; 
+    private JButton reset, exit;
     private PlayerDisplayPanel playerDisplayPanel;
 
     public GameUI() {
@@ -51,7 +54,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
         this.gameState = gameState;
         currentPlayer = this.gameState.player1;
     }
-    
+
     // Game loop
     @Override
     public void run() {
@@ -61,7 +64,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
             render();
         }
     }
-    
+
     private void tick() {
         // AI Player
         if (currentPlayer.getClass().equals(AIPlayer.class)) {
@@ -95,11 +98,11 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
             playerDisplayPanel.setP2Panel();
             playerDisplayPanel.disP1Panel();
         }
-        
+
         playerDisplayPanel.setPlayer1Marks(gameState.player1.marks);
         playerDisplayPanel.setPlayer2Marks(gameState.player2.marks);
     }
-    
+
     // Button click handler
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -122,7 +125,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
         }
 
         if (e.getSource() == exit) {
-            exit();
+            serializeObjs();
             System.exit(0);
         }
     }
@@ -132,7 +135,7 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
     }
 
     // Exit operation, serialize gameState object
-    private void exit() {
+    private void serializeObjs() {
         try {
             FileOutputStream fileOutGS = new FileOutputStream("./tmp/gameState.ser");
             ObjectOutputStream outGS = new ObjectOutputStream(fileOutGS);
@@ -168,15 +171,15 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
         playerDisplayPanel.setPlayer1Name(gameState.player1.getPlayerName());
         playerDisplayPanel.setPlayer2Name(gameState.player2.getPlayerName());
 
-        reset = new JButton("Reset the Game");
+        reset = new JButton("Restart");
         reset.addActionListener(this);
         reset.setFocusPainted(false);
-        exit = new JButton("Exit");
-        exit.addActionListener(this);
-        exit.setFocusPainted(false);
+//        exit = new JButton("Exit");
+//        exit.addActionListener(this);
+//        exit.setFocusPainted(false);
 
         topPanel.add(reset);
-        topPanel.add(exit);
+//        topPanel.add(exit);
 
         // INITIALIZE localboards and cells and add to globalboard
         for (int i = 0; i < 9; i++) {
@@ -195,7 +198,26 @@ public class GameUI extends JFrame implements ActionListener, Runnable {
         }
 
         // JFRAME Initialization
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                String ObjButtons[] = {"Save and Exit", "Exit", "Cancel"};
+                int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "TicTacToe ULTIMATE", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+                switch (PromptResult) {
+                    case 0:
+                        serializeObjs();
+                        System.exit(0);
+                        break;
+                    case 1:
+                        System.exit(0);
+                        break;
+                    case 2:
+                    default:
+                        break;
+                }
+            }
+        });
         this.setResizable(false);
         this.setSize(800, 600);
         this.setLayout(new BorderLayout());

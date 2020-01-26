@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}CSC 111 2.0 Computer Programming Assignment
+${licensePrefix}
+<#if licenseLast??>
+${licenseLast}
+</#if>
